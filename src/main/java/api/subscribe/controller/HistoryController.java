@@ -1,6 +1,7 @@
 package api.subscribe.controller;
 
 
+import api.subscribe.model.FindActionsRequest;
 import org.apache.http.message.BasicHeader;
 import org.apache.http.protocol.HTTP;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,9 +49,9 @@ public class HistoryController {
 
     @RequestMapping(value = "/find_actions", method = RequestMethod.POST)
     @ResponseBody
-    public JSONObject findActions(@RequestBody JSONObject request) throws Exception {
+    public JSONObject findActions(@RequestBody FindActionsRequest request) throws Exception {
         CloseableHttpClient httpclient = HttpClients.createDefault();
-        StringEntity se = new StringEntity(request.toString());
+        StringEntity se = new StringEntity(request.toJSONString());
         se.setContentType(new BasicHeader(HTTP.CONTENT_TYPE, "application/json"));
         HttpPost post = new HttpPost(HISTORY_API + "/v1/history/find_actions");
         post.setEntity(se);
