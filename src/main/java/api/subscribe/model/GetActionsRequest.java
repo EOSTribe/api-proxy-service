@@ -1,6 +1,6 @@
 package api.subscribe.model;
 
-public class FindActionsRequest {
+public class GetActionsRequest {
 
     private String data;
 
