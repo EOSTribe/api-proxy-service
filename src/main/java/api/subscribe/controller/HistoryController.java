@@ -2,6 +2,7 @@ package api.subscribe.controller;
 
 
 import api.subscribe.model.GetActionsRequest;
+import api.subscribe.model.GetKeyAccountsRequest;
 import api.subscribe.model.GetTransactionRequest;
 import org.apache.http.message.BasicHeader;
 import org.apache.http.protocol.HTTP;
@@ -76,6 +77,17 @@ public class HistoryController {
     public ResponseEntity<Object> getTransaction(@RequestBody GetTransactionRequest request) throws Exception {
         try {
             String response = callAPI("/v1/history/get_transaction", request.toJSONString());
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        } catch (Exception ex) {
+            return new ResponseEntity<>("{\"error\":\""+ex.getMessage()+"\"}", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @RequestMapping(value = "/get_key_accounts", method = RequestMethod.POST, produces= MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public ResponseEntity<Object> getKeyAccounts(@RequestBody GetKeyAccountsRequest request) throws Exception {
+        try {
+            String response = callAPI("/v1/history/get_key_accounts", request.toJSONString());
             return new ResponseEntity<>(response, HttpStatus.OK);
         } catch (Exception ex) {
             return new ResponseEntity<>("{\"error\":\""+ex.getMessage()+"\"}", HttpStatus.INTERNAL_SERVER_ERROR);
