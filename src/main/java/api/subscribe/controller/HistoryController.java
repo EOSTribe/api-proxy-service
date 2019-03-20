@@ -5,6 +5,8 @@ import api.subscribe.model.FindActionsRequest;
 import org.apache.http.message.BasicHeader;
 import org.apache.http.protocol.HTTP;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -49,7 +51,7 @@ public class HistoryController {
 
     @RequestMapping(value = "/find_actions", method = RequestMethod.POST)
     @ResponseBody
-    public JSONObject findActions(@RequestBody FindActionsRequest request) throws Exception {
+    public ResponseEntity<String> findActions(@RequestBody FindActionsRequest request) throws Exception {
         CloseableHttpClient httpclient = HttpClients.createDefault();
         StringEntity se = new StringEntity(request.toJSONString());
         se.setContentType(new BasicHeader(HTTP.CONTENT_TYPE, "application/json"));
@@ -72,7 +74,7 @@ public class HistoryController {
             reader.close();
             httpclient.close();
 
-            return new JSONObject(response.toString());
+            return new ResponseEntity<>(response.toString(), HttpStatus.OK);
         } else {
             LOGGER.warn("Error calling find_actions - got response code: "+responseCode);
             return null;
