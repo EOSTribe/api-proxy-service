@@ -2,6 +2,7 @@ package api.subscribe.controller;
 
 
 import api.subscribe.model.GetActionsRequest;
+import api.subscribe.model.GetTransactionRequest;
 import org.apache.http.message.BasicHeader;
 import org.apache.http.protocol.HTTP;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -70,7 +71,16 @@ public class HistoryController {
         }
     }
 
-
+    @RequestMapping(value = "/get_transaction", method = RequestMethod.POST, produces= MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public ResponseEntity<Object> getTransaction(@RequestBody GetTransactionRequest request) throws Exception {
+        try {
+            String response = callAPI("/v1/history/get_transaction", request.toJSONString());
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        } catch (Exception ex) {
+            return new ResponseEntity<>("{\"error\":\""+ex.getMessage()+"\"}", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 
     private String callAPI(String apiPath, String requestJSON) throws Exception {
         CloseableHttpClient httpclient = HttpClients.createDefault();
@@ -98,7 +108,7 @@ public class HistoryController {
             return response.toString();
         } else {
             LOGGER.error("Error calling "+apiPath+" - got response code: "+responseCode);
-            throw new Exception("Remote call returned "+responseCode+" code");
+            throw new Exception("Remote call to "+apiPath+" returned "+responseCode+" code");
         }
     }
 
