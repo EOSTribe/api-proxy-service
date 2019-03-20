@@ -6,6 +6,7 @@ import org.apache.http.message.BasicHeader;
 import org.apache.http.protocol.HTTP;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -49,9 +50,9 @@ public class HistoryController {
         TOKEN = properties.getToken();
     }
 
-    @RequestMapping(value = "/find_actions", method = RequestMethod.POST)
+    @RequestMapping(value = "/find_actions", method = RequestMethod.POST, produces= MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public ResponseEntity<String> findActions(@RequestBody FindActionsRequest request) throws Exception {
+    public ResponseEntity<Object> findActions(@RequestBody FindActionsRequest request) throws Exception {
         CloseableHttpClient httpclient = HttpClients.createDefault();
         StringEntity se = new StringEntity(request.toJSONString());
         se.setContentType(new BasicHeader(HTTP.CONTENT_TYPE, "application/json"));
