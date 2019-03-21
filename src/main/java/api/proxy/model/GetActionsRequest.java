@@ -44,9 +44,7 @@ public class GetActionsRequest implements JsonRequest {
 
     public String toJSONString() {
         StringBuffer sb = new StringBuffer();
-        if(data != null && data.length() > 0) {
-            sb.append("{ \"data\":\"" + data + "\"");
-        }
+        sb.append("{ \"data\":\"" + data + "\"");
         if(last != null && last.length() > 0) {
             sb.append(",\"last\":\""+last+"\"");
         } else if(from_date != null && from_date.length() > 0) {

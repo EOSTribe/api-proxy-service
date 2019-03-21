@@ -41,6 +41,54 @@ public class ChainController {
         return processRequest(ApiPath.CHAIN_GET_BLOCK, request);
     }
 
+    @RequestMapping(value = "/get_block_header_state", method = RequestMethod.POST, produces= MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public ResponseEntity<Object> getBlockHeaderState(@RequestBody GetBlockRequest request) {
+        return processRequest(ApiPath.CHAIN_GET_BLOCK_HEADER_STATE, request);
+    }
+
+    @RequestMapping(value = "/get_account", method = RequestMethod.POST, produces= MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public ResponseEntity<Object> getAccount(@RequestBody GetAccountRequest request) {
+        return processRequest(ApiPath.CHAIN_GET_ACCOUNT, request);
+    }
+
+    @RequestMapping(value = "/get_abi", method = RequestMethod.POST, produces= MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public ResponseEntity<Object> getAbi(@RequestBody GetAccountRequest request) {
+        return processRequest(ApiPath.CHAIN_GET_ABI, request);
+    }
+
+    @RequestMapping(value = "/get_raw_abi", method = RequestMethod.POST, produces= MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public ResponseEntity<Object> getRawAbi(@RequestBody GetAccountRequest request) {
+        return processRequest(ApiPath.CHAIN_GET_RAW_ABI, request);
+    }
+
+    @RequestMapping(value = "/get_raw_code_and_abi", method = RequestMethod.POST, produces= MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public ResponseEntity<Object> getRawCodeAndAbi(@RequestBody GetAccountRequest request) {
+        return processRequest(ApiPath.CHAIN_GET_RAW_CODE_AND_ABI, request);
+    }
+
+    @RequestMapping(value = "/get_code", method = RequestMethod.POST, produces= MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public ResponseEntity<Object> getCode(@RequestBody GetAccountRequest request) {
+        return processRequest(ApiPath.CHAIN_GET_CODE, request);
+    }
+
+    @RequestMapping(value = "/get_table_rows", method = RequestMethod.POST, produces= MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public ResponseEntity<Object> getTableRows(@RequestBody GetTableRowsRequest request) {
+        return processRequest(ApiPath.CHAIN_GET_TABLE_ROWS, request);
+    }
+
+    @RequestMapping(value = "/get_table_by_scope", method = RequestMethod.POST, produces= MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public ResponseEntity<Object> getTableByScope(@RequestBody GetTableByScopeRequest request) {
+        return processRequest(ApiPath.CHAIN_GET_TABLE_BY_SCOPE, request);
+    }
+
     private ResponseEntity<Object> processRequest(String apiPath, JsonRequest request) {
         try {
             String response = ApiService.call(API_SERVER + apiPath, TOKEN, request.toJSONString());
