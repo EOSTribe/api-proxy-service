@@ -2,8 +2,7 @@ package api.proxy.controller;
 
 
 import api.proxy.model.*;
-import org.apache.http.message.BasicHeader;
-import org.apache.http.protocol.HTTP;
+import api.proxy.service.ApiService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -14,18 +13,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import org.apache.http.entity.StringEntity;
-import org.apache.http.client.methods.CloseableHttpResponse;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.impl.client.HttpClients;
-
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 
 
 @RestController
@@ -33,13 +20,8 @@ import org.slf4j.LoggerFactory;
 public class HistoryController {
 
 
-    private static Logger LOGGER = LoggerFactory.getLogger(HistoryController.class);
-
     private String HISTORY_API;
     private String TOKEN;
-
-
-    private final String AGENT_NAME = "API Proxy Service";
 
 
     @Autowired
@@ -80,41 +62,12 @@ public class HistoryController {
 
     private ResponseEntity<Object> processRequest(String apiPath, JsonRequest request) {
         try {
-            String response = callAPI(apiPath, request.toJSONString());
+            String response = ApiService.call(HISTORY_API+apiPath, TOKEN, request.toJSONString());
             return new ResponseEntity<>(response, HttpStatus.OK);
         } catch (Exception ex) {
             return new ResponseEntity<>("{\"error\":\""+ex.getMessage()+"\"}", HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
-    private String callAPI(String apiPath, String requestJSON) throws Exception {
-        CloseableHttpClient httpclient = HttpClients.createDefault();
-        StringEntity se = new StringEntity(requestJSON);
-        se.setContentType(new BasicHeader(HTTP.CONTENT_TYPE, "application/json"));
-        HttpPost post = new HttpPost(HISTORY_API + apiPath);
-        post.setEntity(se);
-        post.addHeader("User-Agent", AGENT_NAME);
-        post.addHeader("Authorization", TOKEN);
-        CloseableHttpResponse httpResponse = httpclient.execute(post);
-        int responseCode = httpResponse.getStatusLine().getStatusCode();
-        if (responseCode == 200) {
-            BufferedReader reader = new BufferedReader(new InputStreamReader(
-                    httpResponse.getEntity().getContent()));
-
-            String inputLine;
-            StringBuffer response = new StringBuffer();
-
-            while ((inputLine = reader.readLine()) != null) {
-                response.append(inputLine);
-            }
-            reader.close();
-            httpclient.close();
-
-            return response.toString();
-        } else {
-            LOGGER.error("Error calling "+apiPath+" - got response code: "+responseCode);
-            throw new Exception("Remote call to "+apiPath+" returned "+responseCode+" code");
-        }
-    }
 
 }
