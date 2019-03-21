@@ -1,9 +1,7 @@
-package api.subscribe.controller;
+package api.proxy.controller;
 
 
-import api.subscribe.model.GetActionsRequest;
-import api.subscribe.model.GetKeyAccountsRequest;
-import api.subscribe.model.GetTransactionRequest;
+import api.proxy.model.*;
 import org.apache.http.message.BasicHeader;
 import org.apache.http.protocol.HTTP;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,41 +51,36 @@ public class HistoryController {
     @RequestMapping(value = "/find_actions", method = RequestMethod.POST, produces= MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public ResponseEntity<Object> findActions(@RequestBody GetActionsRequest request) throws Exception {
-        try {
-            String response = callAPI("/v1/history/find_actions", request.toJSONString());
-            return new ResponseEntity<>(response, HttpStatus.OK);
-        } catch (Exception ex) {
-            return new ResponseEntity<>("{\"error\":\""+ex.getMessage()+"\"}", HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+        return processRequest("/v1/history/find_actions", request);
     }
 
     @RequestMapping(value = "/get_actions", method = RequestMethod.POST, produces= MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public ResponseEntity<Object> getActions(@RequestBody GetActionsRequest request) throws Exception {
-        try {
-            String response = callAPI("/v1/history/get_actions", request.toJSONString());
-            return new ResponseEntity<>(response, HttpStatus.OK);
-        } catch (Exception ex) {
-            return new ResponseEntity<>("{\"error\":\""+ex.getMessage()+"\"}", HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+        return processRequest("/v1/history/get_actions", request);
     }
 
     @RequestMapping(value = "/get_transaction", method = RequestMethod.POST, produces= MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public ResponseEntity<Object> getTransaction(@RequestBody GetTransactionRequest request) throws Exception {
-        try {
-            String response = callAPI("/v1/history/get_transaction", request.toJSONString());
-            return new ResponseEntity<>(response, HttpStatus.OK);
-        } catch (Exception ex) {
-            return new ResponseEntity<>("{\"error\":\""+ex.getMessage()+"\"}", HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+    public ResponseEntity<Object> getTransaction(@RequestBody GetTransactionRequest request) {
+        return processRequest("/v1/history/get_transaction", request);
     }
 
     @RequestMapping(value = "/get_key_accounts", method = RequestMethod.POST, produces= MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public ResponseEntity<Object> getKeyAccounts(@RequestBody GetKeyAccountsRequest request) throws Exception {
+    public ResponseEntity<Object> getKeyAccounts(@RequestBody GetKeyAccountsRequest request) {
+        return processRequest("/v1/history/get_key_accounts", request);
+    }
+
+    @RequestMapping(value = "/get_controlled_accounts", method = RequestMethod.POST, produces= MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public ResponseEntity<Object> getControlledAccounts(@RequestBody GetControlledAccountsRequest request) {
+        return processRequest("/v1/history/get_controlled_accounts", request);
+    }
+
+    private ResponseEntity<Object> processRequest(String apiPath, JsonRequest request) {
         try {
-            String response = callAPI("/v1/history/get_key_accounts", request.toJSONString());
+            String response = callAPI(apiPath, request.toJSONString());
             return new ResponseEntity<>(response, HttpStatus.OK);
         } catch (Exception ex) {
             return new ResponseEntity<>("{\"error\":\""+ex.getMessage()+"\"}", HttpStatus.INTERNAL_SERVER_ERROR);

@@ -1,6 +1,6 @@
-package api.subscribe.model;
+package api.proxy.model;
 
-public class GetKeyAccountsRequest {
+public class GetKeyAccountsRequest implements JsonRequest {
 
     private String public_key;
 

@@ -1,6 +1,6 @@
-package api.subscribe.model;
+package api.proxy.model;
 
-public class GetTransactionRequest {
+public class GetTransactionRequest implements JsonRequest {
 
     private String id;
 

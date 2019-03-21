@@ -1,6 +1,6 @@
-package api.subscribe.model;
+package api.proxy.model;
 
-public class GetActionsRequest {
+public class GetActionsRequest implements JsonRequest {
 
     private String data;
 
