@@ -10,15 +10,15 @@ import org.springframework.stereotype.Component;
 @ConfigurationProperties
 public class Properties {
 
-    @Value("${history-api}")
-    private String historyApi;
+    @Value("${apiserver}")
+    private String apiserver;
 
     @Value("${token}")
     private String token;
 
 
-    public String getHistoryApi() {
-        return historyApi;
+    public String getApiServer() {
+        return apiserver;
     }
 
     public String getToken() { return token; }
