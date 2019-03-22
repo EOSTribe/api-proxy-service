@@ -103,7 +103,7 @@ public class ChainController {
 
     @RequestMapping(value = "/abi_bin_to_json", method = RequestMethod.POST, produces= MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public ResponseEntity<Object> abiBenToJson(@RequestBody AbiBinToJaonRequest request) {
+    public ResponseEntity<Object> abiBenToJson(@RequestBody AbiBinToJsonRequest request) {
         return processRequest(ApiPath.CHAIN_ABI_BIN_TO_JSON, request);
     }
 
