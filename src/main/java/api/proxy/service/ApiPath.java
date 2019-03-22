@@ -18,6 +18,8 @@ public interface ApiPath {
     String CHAIN_GET_CODE = "/v1/chain/get_code";
     String CHAIN_GET_TABLE_ROWS = "/v1/chain/get_table_rows";
     String CHAIN_GET_TABLE_BY_SCOPE = "/v1/chain/get_table_by_scope";
-
+    String CHAIN_GET_CURRENCY_BALANCE = "/v1/chain/get_currency_balance";
+    String CHAIN_ABI_JSON_TO_BIN = "/v1/chain/abi_json_to_bin";
+    String CHAIN_ABI_BIN_TO_JSON = "/v1/chain/abi_bin_to_json";
 
 }

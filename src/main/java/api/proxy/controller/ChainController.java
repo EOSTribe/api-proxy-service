@@ -89,6 +89,24 @@ public class ChainController {
         return processRequest(ApiPath.CHAIN_GET_TABLE_BY_SCOPE, request);
     }
 
+    @RequestMapping(value = "/get_currency_balance", method = RequestMethod.POST, produces= MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public ResponseEntity<Object> getCurrencyBalance(@RequestBody GetCurrencyBalanceRequest request) {
+        return processRequest(ApiPath.CHAIN_GET_CURRENCY_BALANCE, request);
+    }
+
+    @RequestMapping(value = "/abi_json_to_bin", method = RequestMethod.POST, produces= MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public ResponseEntity<Object> abiJsonToBin(@RequestBody AbiJsonToBinRequest request) {
+        return processRequest(ApiPath.CHAIN_ABI_JSON_TO_BIN, request);
+    }
+
+    @RequestMapping(value = "/abi_bin_to_json", method = RequestMethod.POST, produces= MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public ResponseEntity<Object> abiBenToJson(@RequestBody AbiBinToJaonRequest request) {
+        return processRequest(ApiPath.CHAIN_ABI_BIN_TO_JSON, request);
+    }
+
     private ResponseEntity<Object> processRequest(String apiPath, JsonRequest request) {
         try {
             String response = ApiService.call(API_SERVER + apiPath, TOKEN, request.toJSONString());
