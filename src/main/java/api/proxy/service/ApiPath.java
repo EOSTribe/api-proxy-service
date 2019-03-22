@@ -21,5 +21,11 @@ public interface ApiPath {
     String CHAIN_GET_CURRENCY_BALANCE = "/v1/chain/get_currency_balance";
     String CHAIN_ABI_JSON_TO_BIN = "/v1/chain/abi_json_to_bin";
     String CHAIN_ABI_BIN_TO_JSON = "/v1/chain/abi_bin_to_json";
+    String CHAIN_GET_REQUIRED_KEYS = "/v1/chain/get_required_keys";
+    String CHAIN_GET_CURRENCY_STATS = "/v1/chain/get_currency_stats";
+    String CHAIN_GET_PRODUCERS = "/v1/chain/get_producers";
+    String CHAIN_PUSH_BLOCK = "/v1/chain/push_block";
+    String CHAIN_PUSH_TRANSACTION = "/v1/chain/push_transaction";
+    String CHAIN_PUSH_TRANSACTIONS = "/v1/chain/push_transactions";
 
 }

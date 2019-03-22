@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
-
+import com.fasterxml.jackson.databind.JsonNode;
 
 
 @RestController
@@ -103,13 +103,58 @@ public class ChainController {
 
     @RequestMapping(value = "/abi_bin_to_json", method = RequestMethod.POST, produces= MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public ResponseEntity<Object> abiBenToJson(@RequestBody AbiBinToJaonRequest request) {
+    public ResponseEntity<Object> abiBenToJson(@RequestBody AbiBinToJsonRequest request) {
         return processRequest(ApiPath.CHAIN_ABI_BIN_TO_JSON, request);
     }
 
+    @RequestMapping(value = "/get_required_keys", method = RequestMethod.POST, produces= MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public ResponseEntity<Object> getRequiredKeys(@RequestBody JsonNode request) {
+        return processRequest(ApiPath.CHAIN_GET_REQUIRED_KEYS, request);
+    }
+
+    @RequestMapping(value = "/get_currency_stats", method = RequestMethod.POST, produces= MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public ResponseEntity<Object> getCurrencyStats(@RequestBody GetCurrencyStatsRequest request) {
+        return processRequest(ApiPath.CHAIN_GET_CURRENCY_STATS, request);
+    }
+
+    @RequestMapping(value = "/get_producers", method = RequestMethod.POST, produces= MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public ResponseEntity<Object> getProducers(@RequestBody GetProducersRequest request) {
+        return processRequest(ApiPath.CHAIN_GET_PRODUCERS, request);
+    }
+
+    @RequestMapping(value = "/push_block", method = RequestMethod.POST, produces= MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public ResponseEntity<Object> pushBlock(@RequestBody JsonNode request) {
+        return processRequest(ApiPath.CHAIN_PUSH_BLOCK, request);
+    }
+
+    @RequestMapping(value = "/push_transaction", method = RequestMethod.POST, produces= MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public ResponseEntity<Object> pushTransaction(@RequestBody JsonNode request) {
+        return processRequest(ApiPath.CHAIN_PUSH_TRANSACTION, request);
+    }
+
+    @RequestMapping(value = "/push_transactions", method = RequestMethod.POST, produces= MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public ResponseEntity<Object> pushTransactions(@RequestBody JsonNode request) {
+        return processRequest(ApiPath.CHAIN_PUSH_TRANSACTIONS, request);
+    }
+
+
     private ResponseEntity<Object> processRequest(String apiPath, JsonRequest request) {
+        return processRequest(apiPath, request.toJSONString());
+    }
+
+    private ResponseEntity<Object> processRequest(String apiPath, JsonNode request) {
+        return processRequest(apiPath, request.asText());
+    }
+
+    private ResponseEntity<Object> processRequest(String apiPath, String body) {
         try {
-            String response = ApiService.call(API_SERVER + apiPath, TOKEN, request.toJSONString());
+            String response = ApiService.call(API_SERVER + apiPath, TOKEN, body);
             return new ResponseEntity<>(response, HttpStatus.OK);
         } catch (Exception ex) {
             return new ResponseEntity<>("{\"error\":\""+ex.getMessage()+"\"}", HttpStatus.INTERNAL_SERVER_ERROR);
