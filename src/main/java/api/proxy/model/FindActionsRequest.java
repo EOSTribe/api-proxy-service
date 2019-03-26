@@ -1,12 +1,8 @@
 package api.proxy.model;
 
-public class GetActionsRequest implements JsonRequest {
+public class FindActionsRequest implements JsonRequest {
 
-    private String account_name;
-
-    private Integer pos;
-
-    private Integer offset;
+    private String data;
 
     private String last;
 
@@ -14,28 +10,12 @@ public class GetActionsRequest implements JsonRequest {
 
     private String to_date;
 
-    public String getAccount_name() {
-        return account_name;
+    public String getData() {
+        return data;
     }
 
-    public void setAccount_name(String account_name) {
-        this.account_name = account_name;
-    }
-
-    public Integer getPos() {
-        return pos;
-    }
-
-    public void setPos(Integer pos) {
-        this.pos = pos;
-    }
-
-    public Integer getOffset() {
-        return offset;
-    }
-
-    public void setOffset(Integer offset) {
-        this.offset = offset;
+    public void setData(String data) {
+        this.data = data;
     }
 
     public String getLast() {
@@ -64,13 +44,7 @@ public class GetActionsRequest implements JsonRequest {
 
     public String toJSONString() {
         StringBuffer sb = new StringBuffer();
-        sb.append("{ \"account_name\":\"" + account_name + "\"");
-        if(pos != null) {
-            sb.append(", \"pos\":"+pos);
-        }
-        if(offset != null) {
-            sb.append(", \"offset\":"+offset);
-        }
+        sb.append("{ \"data\":\"" + data + "\"");
         if(last != null && last.length() > 0) {
             sb.append(",\"last\":\""+last+"\"");
         } else if(from_date != null && from_date.length() > 0) {

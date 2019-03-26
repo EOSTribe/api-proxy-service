@@ -33,7 +33,7 @@ public class HistoryController {
 
     @RequestMapping(value = "/find_actions", method = RequestMethod.POST, produces= MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public ResponseEntity<Object> findActions(@RequestBody GetActionsRequest request) {
+    public ResponseEntity<Object> findActions(@RequestBody FindActionsRequest request) {
         return processRequest(ApiPath.HISTORY_FIND_ACTIONS, request);
     }
 
